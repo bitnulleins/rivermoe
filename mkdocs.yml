@@ -1,0 +1,16 @@
+# Project information
+site_name: rivermoe
+site_description: rivermoe is a framework that offers Mixture of Experts (MoE) for online machine learning.
+site_author: Finn Dohrn
+site_url: https://github.com/bitnulleins/rivermoe
+
+# Repository
+repo_name: rivermoe
+repo_url: https://github.com/bitnulleins/rivermoe
+edit_uri: "https://github.com/bitnulleins/rivermoe"
+
+# Copyright
+copyright: Copyright &copy; 2025
+
+theme:
+  name: mkdocs
