@@ -13,7 +13,7 @@
 [![License](https://img.shields.io/github/license/bitnulleins/rivermoe)](https://github.com/bitnulleins/rivermoe/blob/master/LICENSE)
 ![Coverage Report](assets/images/coverage.svg)
 
-$\textit{river}_\text{MoE}$ is a framework that offers Mixture of Experts (MoE) for online machine learning. It combines the [river](https://github.com/online-ml/river) API and [deep-river](https://github.com/online-ml/deepriver) with the capability of designing MoE-architectures based on different machine learning or deep learning approaches.
+*river*MoE is a framework that offers Mixture of Experts (MoE) for online machine learning. It combines the [river](https://github.com/online-ml/river) API and [deep-river](https://github.com/online-ml/deepriver) with the capability of designing MoE-architectures based on different machine learning or deep learning approaches.
 </div>
 
 ## ⭐️ Features
