@@ -85,7 +85,6 @@ class BaseMixtureOfExpert(base.Estimator):
         gate: deep_river.classification.Classifier,
         experts: Union[base.Estimator, List[base.Estimator]],
         seed: int = config.random_seed,
-        **kwargs,
     ):
         """Initialize Mixture of Experts
 
@@ -97,8 +96,6 @@ class BaseMixtureOfExpert(base.Estimator):
             List of experts (ML or deep learning models)
         seed : int, optional
             random seed, by default config.random_seed
-        **kwargs
-            Optional parameters to be passed to the `Module` or the `optimizer`.
 
         Raises
         ------
@@ -113,7 +110,6 @@ class BaseMixtureOfExpert(base.Estimator):
         self._abs_freq = {idx: 0 for idx in self.experts.keys()}
         self._gate_weights = {idx: 0 for idx in self.experts.keys()}
         self.seed = seed
-        self.kwargs = kwargs
 
         for component in [self.gate] + list(self.experts.values()):
             if isinstance(component, type):
@@ -197,8 +193,6 @@ class BaseMixtureOfExpert(base.Estimator):
         ----------
         x : dict
             First input data
-        **kwargs
-            Optional parameters to be passed to the `Module` or the `optimizer`.
 
         Raises
         ------
@@ -209,7 +203,7 @@ class BaseMixtureOfExpert(base.Estimator):
 
         self.gate.is_class_incremental = True
         self.gate.is_features_incremental = True
-        self.gate.initialize_module(x=x, **self.kwargs)
+        self.gate.initialize_module(x=x, **self.gate.kwargs)
 
         if self.gate.output_layer.out_features > len(self.experts):
             raise ValueError(

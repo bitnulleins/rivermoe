@@ -69,7 +69,7 @@ class MoEClassifier(BaseMixtureOfExpert, base.Classifier):
         y_pred = self._predict(x)
         return output2proba(y_pred, self._observed_classes, self.gate.output_is_logit)[0]
 
-    def learn_one(self, x: dict, y: base.typing.ClfTarget, **kwargs) -> None:
+    def learn_one(self, x: dict, y: base.typing.ClfTarget) -> None:
         """Learn from single input (x, y).
         If number of experts is 1, learn from single expert.
 
@@ -79,8 +79,6 @@ class MoEClassifier(BaseMixtureOfExpert, base.Classifier):
             Input data
         y : RegTarget
             Label data
-        **kwargs
-            Optional parameters to be passed to the `Module` or the `optimizer`.
 
         Returns
         -------
@@ -92,7 +90,7 @@ class MoEClassifier(BaseMixtureOfExpert, base.Classifier):
             self.update_stats([1])
             return self.experts[single_expert].learn_one(x, y)
         if not self._moe_initialized:
-            self.initialize_moe(x, **self.kwargs)
+            self.initialize_moe(x)
 
         # Adapt gate input dimensions
         self.gate._adapt_input_dim(x)

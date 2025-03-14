@@ -36,7 +36,7 @@ MoE with three river experts for *TrumpApproval* dataset:
 
 ```python
 >>> from rivermoe.utils.generic_nn import GenericNNClassifier
->>> from rivermoe.classification.soft_moe import SoftMoEClassifier
+>>> from river import datasets, metrics, preprocessing, evaluate, tree, linear_model, dummy, stats
 >>> from rivermoe.regression.soft_moe import SoftMoERegressor
 >>> 
 >>> # Generate neural network
