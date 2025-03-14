@@ -42,12 +42,9 @@ class MoERegressor(BaseMixtureOfExpert, base.Regressor):
         self.gate._adapt_input_dim(x)
 
         self.gate.module.eval()
-        with torch.inference_mode():
-            y_pred = self._predict(x)
+        return self._predict(x)
 
-        return y_pred
-
-    def learn_one(self, x: dict, y: RegTarget) -> "Regressor":
+    def learn_one(self, x: dict, y: RegTarget, **kwargs) -> "Regressor":
         """Learn from single input (x, y).
         If number of experts is 1, learn from single expert.
 
@@ -57,6 +54,8 @@ class MoERegressor(BaseMixtureOfExpert, base.Regressor):
             Input data
         y : RegTarget
             Label data
+        **kwargs
+            Optional parameters to be passed to the `Module` or the `optimizer`.
 
         Returns
         -------
@@ -68,7 +67,7 @@ class MoERegressor(BaseMixtureOfExpert, base.Regressor):
             self.update_stats([1])
             return self.experts[single_expert].learn_one(x, y)
         if not self._moe_initialized:
-            self.initialize_moe(x)
+            self.initialize_moe(x, **self.kwargs)
 
         # Adapt gate input dimensions
         self.gate._adapt_input_dim(x)

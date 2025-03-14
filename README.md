@@ -3,14 +3,14 @@
 <img src="./assets/images/rivermoe.svg" width="400">
 
 <!--
-[![Build status](https://github.com/bitnulleins/rivermoe/workflows/build/badge.svg?branch=master&event=push)](https://github.com/bitnulleins/rivermoe/actions?query=workflow%3Abuild) [Dependencies Status](https://github.com/bitnulleins/rivermoe/pulls?utf8=%E2%9C%93&q=is%3Apr%20author%3Aapp%2Fdependabot)
+[![Build status](https://github.com/bitnulleins/rivermoe/workflows/build/badge.svg?branch=main&event=push)](https://github.com/bitnulleins/rivermoe/actions?query=workflow%3Abuild) [Dependencies Status](https://github.com/bitnulleins/rivermoe/pulls?utf8=%E2%9C%93&q=is%3Apr%20author%3Aapp%2Fdependabot)
 -->
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Security: bandit](https://img.shields.io/badge/security-bandit-green.svg)](https://github.com/PyCQA/bandit)
-[![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/bitnulleins/rivermoe/blob/master/.pre-commit-config.yaml)
+[![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/bitnulleins/rivermoe/blob/main/.pre-commit-config.yaml)
 [![Semantic Versions](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--versions-e10079.svg)](https://github.com/bitnulleins/rivermoe/releases)
-[![License](https://img.shields.io/github/license/bitnulleins/rivermoe)](https://github.com/bitnulleins/rivermoe/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/bitnulleins/rivermoe)](https://github.com/bitnulleins/rivermoe/blob/main/LICENSE)
 ![Coverage Report](assets/images/coverage.svg)
 
 *river*MoE is a framework that offers Mixture of Experts (MoE) for online machine learning. It combines the [river](https://github.com/online-ml/river) API and [deep-river](https://github.com/online-ml/deepriver) with the capability of designing MoE-architectures based on different machine learning or deep learning approaches.
@@ -58,22 +58,34 @@ MoE with three river experts for *TrumpApproval* dataset:
 >>> dataset = datasets.TrumpApproval()
 >>> metric = metrics.MAE()
 >>> evaluate.progressive_val_score(dataset, preprocessing.StandardScaler() | model, metric)
-MAE: 0.882453
+MAE: 0.923203
 ```
 
 The same with single expert evaluation:
 
 ```python
->>> for model in [linear_model.LinearRegression(), tree.HoeffdingTreeRegressor()]:
+>>> for model in [tree.HoeffdingTreeRegressor(), linear_model.LinearRegression(), dummy.StatisticRegressor(stats.Mean())]:
+...     metric = metrics.MAE()
 ...     model_pipeline = preprocessing.StandardScaler() | model
 ...     print(model.__class__.__name__)
 ...     print(evaluate.progressive_val_score(dataset, model_pipeline, metric))
 ... 
-LinearRegression
-MAE: 1.0985
 HoeffdingTreeRegressor
-MAE: 1.051035
+MAE: 0.956103
+LinearRegression
+MAE: 1.314548
+StatisticRegressor
+MAE: 1.567555
 ```
+
+Results in ensemble are better than alone:
+
+Dataset | Model | MAE ↓ |
+|---|---|---|
+TrumpApproval | riverMoE | **0.923203** |
+TrumpApproval | HoeffingTreeRegressor | 0.956103 |
+TrumpApproval | LinearRegression | 1.314548 |
+TrumpApproval | StatisticRegressor | 1.567555 |
 
 Plot MoE-network:
 

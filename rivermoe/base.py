@@ -85,13 +85,35 @@ class BaseMixtureOfExpert(base.Estimator):
         gate: deep_river.classification.Classifier,
         experts: Union[base.Estimator, List[base.Estimator]],
         seed: int = config.random_seed,
+        **kwargs,
     ):
+        """Initialize Mixture of Experts
+
+        Parameters
+        ----------
+        gate : deep_river.classification.Classifier
+            Gate of the MoE
+        experts : Union[base.Estimator, List[base.Estimator]]
+            List of experts (ML or deep learning models)
+        seed : int, optional
+            random seed, by default config.random_seed
+        **kwargs
+            Optional parameters to be passed to the `Module` or the `optimizer`.
+
+        Raises
+        ------
+        ValueError
+            Not initialized component
+        ValueError
+            Gate has to be of type Classifier
+        """
         self.experts = {idx: expert.clone() for idx, expert in enumerate(experts)}
         self.gate = gate.clone()
         self._moe_initialized = False
         self._abs_freq = {idx: 0 for idx in self.experts.keys()}
         self._gate_weights = {idx: 0 for idx in self.experts.keys()}
         self.seed = seed
+        self.kwargs = kwargs
 
         for component in [self.gate] + list(self.experts.values()):
             if isinstance(component, type):
@@ -153,7 +175,8 @@ class BaseMixtureOfExpert(base.Estimator):
                 self._abs_freq[idx] += 1
 
         # Normalize weights
-        if total := sum(self._gate_weights.values()) > 0:
+        total = sum(self._gate_weights.values())
+        if total > 0:
             self._gate_weights = {idx: weight / total for idx, weight in self._gate_weights.items()}
 
     @property
@@ -174,6 +197,8 @@ class BaseMixtureOfExpert(base.Estimator):
         ----------
         x : dict
             First input data
+        **kwargs
+            Optional parameters to be passed to the `Module` or the `optimizer`.
 
         Raises
         ------
@@ -184,24 +209,44 @@ class BaseMixtureOfExpert(base.Estimator):
 
         self.gate.is_class_incremental = True
         self.gate.is_features_incremental = True
-        self.gate.initialize_module(x=x)
+        self.gate.initialize_module(x=x, **self.kwargs)
 
-        if self.gate.output_layer.out_features != len(self.experts):
-            raise ValueError("Number of experts and output neurons have to be the same.")
+        if self.gate.output_layer.out_features > len(self.experts):
+            raise ValueError(
+                "Number of output neurons has to be lower or equal to number of experts"
+            )
 
         for idx in self.experts.keys():
-            self.gate._update_observed_classes(idx)
+            self._adapt_gate_output_dim(idx)
 
         def nn_init(layer):
             if isinstance(layer, nn.Linear):
-                # New symmetric uniform initialisation
-                torch.nn.init.kaiming_uniform_(layer.weight)
+                # Constant weight initialisation, so no prefered order of experts
+                torch.nn.init.constant_(layer.weight, 1.0 / self._n_experts)
                 # Zero bias for all experts
                 torch.nn.init.zeros_(layer.bias)
 
         self.gate.module.apply(nn_init)
 
         self._moe_initialized = True
+
+    def _adapt_gate_output_dim(self, y: base.typing.ClfTarget):
+        """Adaptiere die Dimensionen des Experten-Outputs
+
+        Parameters
+        ----------
+        y : base.typing.ClfTarget
+            Expert index
+        """
+        has_new_expert = self.gate._update_observed_classes(y)
+        if has_new_expert and self.gate.output_layer.out_features < len(self.gate.observed_classes):
+            deep_river.utils.layer_adaptation.expand_layer(
+                layer=self.gate.output_layer,
+                instructions=self.gate.output_expansion_instructions,
+                target_size=len(self.gate.observed_classes),
+                output=True,
+                init_fn=torch.nn.init.uniform_,
+            )
 
     def _loss(
         self, y_pred: torch.Tensor, y_true: Union[base.typing.ClfTarget, base.typing.RegTarget]
