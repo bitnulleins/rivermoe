@@ -135,7 +135,16 @@ This project is licensed under the terms of the `Apache Software License 2.0` li
 > Publication of master thesis is still in progress.
 
 ```bibtex
-@misc{rivermoe,
-  ...
+@phdthesis{dohrn_adaptive_2025,
+	address = {Hamburg},
+	type = {Master’s thesis},
+	title = {Adaptive {Machine} {Learning} with {Mixture} of {Experts}},
+	shorttitle = {Adaptive {ML} with {MoE}},
+	url = {https://github.com/bitnulleins/rivermoe},
+	language = {en},
+	school = {Hamburg University of Applied Science},
+	author = {Dohrn, Finn},
+	month = mar,
+	year = {2025},
 }
 ```
