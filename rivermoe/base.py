@@ -7,7 +7,6 @@ import torch
 import torch.nn as nn
 from river import base
 
-from rivermoe.config import config
 from rivermoe.utils.misc import module_class_name
 
 try:
@@ -84,7 +83,7 @@ class BaseMixtureOfExpert(base.Estimator):
         self,
         gate: deep_river.classification.Classifier,
         experts: Union[base.Estimator, List[base.Estimator]],
-        seed: int = config.random_seed,
+        seed: int = 42,
     ):
         """Initialize Mixture of Experts
 
@@ -95,7 +94,7 @@ class BaseMixtureOfExpert(base.Estimator):
         experts : Union[base.Estimator, List[base.Estimator]]
             List of experts (ML or deep learning models)
         seed : int, optional
-            random seed, by default config.random_seed
+            random seed, by default 42
 
         Raises
         ------
@@ -261,7 +260,7 @@ class BaseMixtureOfExpert(base.Estimator):
         """
         return self.gate.loss_func(y_pred, y_true)
 
-    def draw(self) -> Digraph:
+    def draw(self, font: str = None) -> Digraph:
         """Visualisierung des Mixture of Experts
 
         Returns
@@ -281,7 +280,6 @@ class BaseMixtureOfExpert(base.Estimator):
             )
             dot.node(f"Combine_{i}", "×", fontname=font, shape="circle")
 
-        font = config.font if config.font_path else None
         active_experts = {idx: exp for idx, exp in self.experts.items() if exp is not None}
         dot = Digraph(format="png")
         dot.graph_attr.update(

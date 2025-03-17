@@ -9,8 +9,6 @@ from deep_river.regression import Regressor
 from deep_river.utils import get_activation_fn, get_loss_fn, get_optim_fn
 from ordered_set import OrderedSet
 
-from rivermoe.config import config
-
 SUPPORTED_LAYERS = {
     "linear": nn.Linear,
     "dropout": nn.Dropout,
@@ -175,7 +173,7 @@ class GenericNN(DeepEstimator):
         lr: float = 1e-3,
         is_feature_incremental: bool = False,
         device: str = "cpu",
-        seed: int = config.random_seed,
+        seed: int = 42,
         **kwargs,
     ):
         self.module_cls = GenericNNArchitecture
