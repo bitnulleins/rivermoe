@@ -260,7 +260,7 @@ class BaseMixtureOfExpert(base.Estimator):
         """
         return self.gate.loss_func(y_pred, y_true)
 
-    def draw(self, font: str = None) -> Digraph:
+    def draw(self) -> Digraph:
         """Visualisierung des Mixture of Experts
 
         Returns
@@ -274,11 +274,10 @@ class BaseMixtureOfExpert(base.Estimator):
             dot.node(
                 f"Expert_{i}",
                 f"Expert {i}:\n{module_class_name(exp)}",
-                fontname=font,
                 shape="box",
                 style="rounded",
             )
-            dot.node(f"Combine_{i}", "×", fontname=font, shape="circle")
+            dot.node(f"Combine_{i}", "×", shape="circle")
 
         active_experts = {idx: exp for idx, exp in self.experts.items() if exp is not None}
         dot = Digraph(format="png")
@@ -289,9 +288,10 @@ class BaseMixtureOfExpert(base.Estimator):
                 "rankdir": "LR",
             }
         )
+        dot.node_attr.update({"fontname": "trebuchet"})
 
         # Input
-        dot.node("Input", "Input", shape="cylinder", fontname=font)
+        dot.node("Input", "Input", shape="cylinder")
 
         # Gate
         top_gate_text = f"{{<top>Gate: {module_class_name(self.gate)}}}"
@@ -300,7 +300,6 @@ class BaseMixtureOfExpert(base.Estimator):
             "Gate",
             top_gate_text + "|" + bottom_gate_text,
             shape="record",
-            fontname=font,
             rank="min",
         )
 
@@ -309,8 +308,8 @@ class BaseMixtureOfExpert(base.Estimator):
             _add_expert_nodes(dot, i, exp)
 
         # Results
-        dot.node("Combine", "Σ", fontname=font, shape="box")
-        dot.node("Output", "Output", fontname=font, shape="ellipse")
+        dot.node("Combine", "Σ", shape="box")
+        dot.node("Output", "Output", shape="ellipse")
 
         # Edges
         dot.edge("Input", "Gate")
@@ -327,7 +326,7 @@ class BaseMixtureOfExpert(base.Estimator):
             s.graph_attr.update({"rank": "same", "margin": "5"})
             for i, exp in active_experts.items():
                 if exp is not None:
-                    s.node(f"Expert_{i}", fontname=font)
+                    s.node(f"Expert_{i}")
 
         return dot
 
