@@ -23,7 +23,7 @@ class SAMoEClassifier(SparseMoEClassifier):
             Target value
         """
         y_pred = self.predict_one(x)
-        detec_in = 0 if y == y_pred else 1
+        detec_in = 1 if y != y_pred else 0
         self.drift_detector.update(detec_in)
         if self.drift_detector.drift_detected:
             if not self._moe_initialized:
