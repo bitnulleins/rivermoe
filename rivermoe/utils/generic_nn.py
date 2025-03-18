@@ -201,7 +201,8 @@ class GenericNN(DeepEstimator):
         torch.manual_seed(seed)
 
     def initialize_module(self, x: dict | pd.DataFrame, **kwargs):
-        del self.kwargs["module"]  # Remove module, if exist
+        if "module" in self.kwargs:
+            del self.kwargs["module"]  # Remove module, if exist - built from GenericNN
         kwargs = {
             "output_dim": self.output_dim,
             "layer_configs": self.layer_configs,
