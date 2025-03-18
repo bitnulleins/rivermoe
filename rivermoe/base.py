@@ -284,7 +284,7 @@ class BaseMixtureOfExpert(base.Estimator):
         dot.graph_attr.update(
             {
                 "margin": "0",
-                "pad": "0",
+                "pad": "0.02",
                 "rankdir": "LR",
             }
         )
