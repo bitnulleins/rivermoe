@@ -1,5 +1,5 @@
 default_language_version:
-  python: python3.9
+  python: python3.11
 
 files: rivermoe
 
@@ -38,9 +38,3 @@ repos:
         language: python
         types: [python]
         entry: mypy
-
-      - id: pyupgrade
-        name: pyupgrade
-        language: python
-        types: [ python ]
-        entry: pyupgrade --py38-plus
