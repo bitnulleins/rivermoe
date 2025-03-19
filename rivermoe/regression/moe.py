@@ -44,7 +44,7 @@ class MoERegressor(BaseMixtureOfExpert, base.Regressor):
         self.gate.module.eval()
         return self._predict(x)
 
-    def learn_one(self, x: dict, y: RegTarget) -> "Regressor":
+    def learn_one(self, x: dict, y: RegTarget) -> base.Regressor:
         """Learn from single input (x, y).
         If number of experts is 1, learn from single expert.
 
@@ -81,11 +81,6 @@ class MoERegressor(BaseMixtureOfExpert, base.Regressor):
         ----------
         x : dict
             Input data
-
-        Returns
-        -------
-        List[float]
-            Prediction values
         """
         pass
 

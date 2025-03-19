@@ -2,7 +2,6 @@ from rivermoe import classification, regression, utils
 
 __all__ = ["classification", "regression", "utils"]
 
-import sys
 from importlib import metadata as importlib_metadata
 
 

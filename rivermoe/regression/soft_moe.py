@@ -49,10 +49,13 @@ class SoftMoERegressor(MoERegressor, SoftMoE):
         ----------
         x : dict
             Input data
-        weights : torch.tensor
+        gate_weights : torch.tensor
             Gate weights
-        exptert_indices : list
-            Expert indices
+
+        Returns
+        -------
+        torch.tensor
+            Weighted prediction
         """
         expert_outputs = [self.experts[i].predict_one(x) for i in self.experts.keys()]
         expert_outputs = torch.tensor(expert_outputs, dtype=torch.float32, device=self.gate.device)

@@ -49,10 +49,13 @@ class SoftMoEClassifier(MoEClassifier, SoftMoE):
         ----------
         x : dict
             Input data
-        weights : torch.tensor
+        gate_weights : torch.tensor
             Gate weights
-        exptert_indices : list
-            Expert indices
+
+        Returns
+        -------
+        base.typing.RegTarget
+            Weighted prediction
         """
         expert_outputs = [
             proba2list(expert.predict_proba_one(x), self._observed_classes)

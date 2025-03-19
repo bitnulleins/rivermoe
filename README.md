@@ -115,6 +115,12 @@ git clone https://github.com/bitnulleins/rivermoe.git
 poetry add rivermoe
 ```
 
+3. Install pre-commit hook and run pre-commit manually
+```bash
+poetry run pre-commit install   
+poetry run pre-commit run --all-files
+```
+
 ## 🔧 Technologies
 
 - [`Poetry`](https://python-poetry.org/) as the dependencies manager. See configuration in [`pyproject.toml`](https://github.com/bitnulleins/rivermoe/blob/master/pyproject.toml) and [`setup.cfg`](https://github.com/bitnulleins/rivermoe/blob/master/setup.cfg).

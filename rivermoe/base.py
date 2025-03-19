@@ -93,7 +93,7 @@ class BaseMixtureOfExpert(base.Estimator):
             Gate of the MoE
         experts : Union[base.Estimator, List[base.Estimator]]
             List of experts (ML or deep learning models)
-        seed : int, optional
+        seed : int
             random seed, by default 42
 
         Raises
@@ -115,7 +115,7 @@ class BaseMixtureOfExpert(base.Estimator):
                 raise ValueError(f"{component.__class__.__name__} is not initialized.")
 
         if not isinstance(self.gate, deep_river.classification.Classifier):
-            raise ValueError(f"Gate has to be of type Classifier.")
+            raise ValueError("Gate has to be of type Classifier.")
 
     @property
     def _name(self) -> str:
@@ -316,7 +316,7 @@ class BaseMixtureOfExpert(base.Estimator):
         for i, exp in active_experts.items():
             dot.edge("Input", f"Expert_{i}")
             dot.edge(f"Expert_{i}", f"Combine_{i}")
-            dot.edge(f"Gate", f"Combine_{i}", style="dashed")
+            dot.edge("Gate", f"Combine_{i}", style="dashed")
             dot.edge(f"Combine_{i}", "Combine")
 
         dot.edge("Combine", "Output")
@@ -344,10 +344,5 @@ class BaseVariant(BaseMixtureOfExpert):
         ----------
         x : dict
             Input data
-
-        Returns
-        -------
-        torch.Tensor
-            Gate weights
         """
         pass

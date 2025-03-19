@@ -72,10 +72,5 @@ class SparseMoE(BaseVariant):
             Input data
         gate_weights : torch.tensor
             Gate weights
-
-        Returns
-        -------
-        torch.Tensor
-            Weighted prediction
         """
         pass

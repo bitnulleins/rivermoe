@@ -8,14 +8,15 @@ def proba2list(preds: dict, classes: OrderedSet) -> list:
 
     Parameters
     ----------
-    y
+    preds : dict
         Dictionary.
-    classes:
+    classes : OrderedSet
         Set of possible clases.
 
     Returns
     -------
-        list
+    list
+        Probabilities as list
     """
     num_classes = len(classes)
 
@@ -44,17 +45,17 @@ def proba2tensor(
 
     Parameters
     ----------
-    y
-        Dictionary.
-    classes:
-        Set of possible clases.
-    device
-        Device.
-    dtype
-        Dtype.
+    preds : dict
+        Predictions
+    classes : OrderedSet
+        Set of possible clases
+    device: str
+        Device
+    dtype: torch.dtype
+        Dtype
 
     Returns
     -------
         torch.Tensor
     """
-    return torch.tensor([dict2list(preds, classes)], dtype=dtype, device=device)
+    return torch.tensor([proba2list(preds, classes)], dtype=dtype, device=device)

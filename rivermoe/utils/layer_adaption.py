@@ -2,7 +2,7 @@ from typing import Callable
 
 import torch
 import torch.nn as nn
-from deep_river.utils.layer_adaptation import SUPPORTED_LAYERS
+from deep_river.utils.layer_adaptation import SUPPORTED_LAYERS, load_instructions
 
 
 def reduce_layer(
@@ -23,8 +23,13 @@ def reduce_layer(
     instructions : dict, optional
         Instructions for modifying the layer parameters. If None,
         they will be generated automatically based on the layer type.
-    init_fn : Callable, optional
+    init_fn : Callable
         Initialization function for new weights, by default nn.init.normal_.
+
+    Raises
+    ------
+    ValueError
+        If the layer type is not supported.
     """
     if not isinstance(layer, SUPPORTED_LAYERS):
         raise ValueError(f"Unsupported layer type: {type(layer)}")

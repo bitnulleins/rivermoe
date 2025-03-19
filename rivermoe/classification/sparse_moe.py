@@ -51,6 +51,11 @@ class SparseMoEClassifier(MoEClassifier, SparseMoE):
             Input data
         gate_weights : torch.tensor
             Gate weights
+
+        Returns
+        -------
+        base.typing.RegTarget
+            Weighted prediction
         """
         active_experts = (gate_weights[0] > 0).nonzero(as_tuple=True)[0].tolist()
         expert_outputs = torch.zeros(

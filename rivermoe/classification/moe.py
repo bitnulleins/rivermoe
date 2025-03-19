@@ -109,11 +109,6 @@ class MoEClassifier(BaseMixtureOfExpert, base.Classifier):
         ----------
         x : dict
             Input data
-
-        Returns
-        -------
-        List[float]
-            Prediction values
         """
         pass
 

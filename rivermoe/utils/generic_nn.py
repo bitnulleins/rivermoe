@@ -8,6 +8,7 @@ from deep_river.classification import Classifier
 from deep_river.regression import Regressor
 from deep_river.utils import get_activation_fn, get_loss_fn, get_optim_fn
 from ordered_set import OrderedSet
+from river.base.typing import ClfTarget
 
 SUPPORTED_LAYERS = {
     "linear": nn.Linear,
@@ -134,13 +135,13 @@ class GenericNNArchitecture(nn.Module):
 
         Parameters
         ----------
-        output_dim : int, optional
+        output_dim : int
             Num of output neurons, by default None
-        layer_configs : list, optional
+        layer_configs : list
             Configuration for NN layers, by default []
-        output_activation : str, optional
+        output_activation : str
             Name of output activation function, by default None
-        activations : list, optional
+        activations : list
             Activation function between layers, by default None
 
         Returns

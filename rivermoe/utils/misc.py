@@ -5,7 +5,9 @@ def module_class_name(self, obj: type = None) -> str:
 
     Parameters
     ----------
-    obj : type, optional
+    self : object
+        The object to get the full name for.
+    obj : type
         The object to get the full name for. Defaults to None.
 
     Returns
