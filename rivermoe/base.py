@@ -238,7 +238,7 @@ class BaseMixtureOfExpert(base.Estimator):
                 instructions=self.gate.output_expansion_instructions,
                 target_size=len(self.gate.observed_classes),
                 output=True,
-                init_fn=torch.nn.init.uniform_,
+                init_fn=torch.nn.init.normal_,
             )
 
     def _loss(
