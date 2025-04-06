@@ -224,7 +224,7 @@ class BaseMixtureOfExpert(base.Estimator):
         self._moe_initialized = True
 
     def _adapt_gate_output_dim(self, y: base.typing.ClfTarget):
-        """Adaptiere die Dimensionen des Experten-Outputs
+        """Adapt the dimensions of the expert output.
 
         Parameters
         ----------
@@ -261,7 +261,7 @@ class BaseMixtureOfExpert(base.Estimator):
         return self.gate.loss_func(y_pred, y_true)
 
     def draw(self) -> Digraph:
-        """Visualisierung des Mixture of Experts
+        """Visualization of the Mixture of Experts.
 
         Returns
         -------
