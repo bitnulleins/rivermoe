@@ -137,9 +137,6 @@ This project is licensed under the terms of the `Apache Software License 2.0` li
 
 ## 📃 Citation
 
-> [!NOTE]
-> Publication of master thesis is still in progress.
-
 ```bibtex
 @phdthesis{rivermoe_2025,
 	address = {Hamburg},
@@ -147,7 +144,7 @@ This project is licensed under the terms of the `Apache Software License 2.0` li
 	title = {Adaptive {Machine} {Learning} with {Mixture} of {Experts}},
 	shorttitle = {Adaptive {ML} with {MoE}},
 	url = {https://www.minds-hh.de/mastersthesis/adaptives-maschinelles-lernen-mit-mixture-of-experts/},
-	language = {en},
+	language = {de},
 	school = {Hamburg University of Applied Science},
 	author = {Dohrn, Finn},
 	month = mar,
