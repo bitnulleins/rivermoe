@@ -146,7 +146,7 @@ This project is licensed under the terms of the `Apache Software License 2.0` li
 	type = {Master’s thesis},
 	title = {Adaptive {Machine} {Learning} with {Mixture} of {Experts}},
 	shorttitle = {Adaptive {ML} with {MoE}},
-	url = {https://github.com/bitnulleins/rivermoe},
+	url = {https://www.minds-hh.de/mastersthesis/adaptives-maschinelles-lernen-mit-mixture-of-experts/},
 	language = {en},
 	school = {Hamburg University of Applied Science},
 	author = {Dohrn, Finn},
